@@ -1,4 +1,4 @@
-package ca.ualberta.cs.lonelytwitter;
+package ca.ualberta.jds1.lonelytwitter;
 
 import java.util.Date;
 import java.util.List;
@@ -16,8 +16,8 @@ public class LonelyTwitterActivity extends Activity {
 	private EditText bodyText;
 	private ListView oldTweetsList;
 
-	private List<NormalLonelyTweet> tweets;
-	private ArrayAdapter<NormalLonelyTweet> adapter;
+	private List<Tweet> tweets;
+	private ArrayAdapter<Tweet> adapter;
 	private TweetsFileManager tweetsProvider;
 
 	@Override
@@ -35,21 +35,24 @@ public class LonelyTwitterActivity extends Activity {
 
 		tweetsProvider = new TweetsFileManager(this);
 		tweets = tweetsProvider.loadTweets();
-		adapter = new ArrayAdapter<NormalLonelyTweet>(this, R.layout.list_item,
+		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item,
 				tweets);
 		oldTweetsList.setAdapter(adapter);
 	}
 
 	public void save(View v) {
 		String text = bodyText.getText().toString();
+		Tweet tweet;
+		if (text.startsWith("*")) {
+			tweet = new ImportantTweet(text, new Date());
+		} else {
+			tweet = new NormalLonelyTweet(text, new Date());
+		}
 
-		NormalLonelyTweet tweet;
-
-		tweet = new NormalLonelyTweet(text, new Date());
 
 		//TODO: use different sub-classes (Normal or Important) based on usage of "*" in the text.
 		
-		if (tweet.isValid()) {
+		if (tweet.isValidButIsNowANewMethodName()) {
 			tweets.add(tweet);
 			adapter.notifyDataSetChanged();
 
