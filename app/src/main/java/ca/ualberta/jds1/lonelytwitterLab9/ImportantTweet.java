@@ -1,4 +1,4 @@
-package ca.ualberta.jds1.lonelytwitter;
+package ca.ualberta.jds1.lonelytwitterLab9;
 
 import java.io.Serializable;
 import java.util.Date;
